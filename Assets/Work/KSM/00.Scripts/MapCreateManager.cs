@@ -9,7 +9,10 @@ public class MapCreateManager : MonoBehaviour
     [SerializeField]private List<Vector2> pointsList;
     [SerializeField] private GameObject pointPrefab;
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private EdgeCollider2D edgeCollider;
+    
     private AnimationCurve curve = new();
+    
 
     [SerializeField] private int linefromlinePointCount = 50;
     [SerializeField] private int CreatePointCount;
@@ -63,14 +66,19 @@ public class MapCreateManager : MonoBehaviour
         float step = (end - start) / (linefromlinePointCount - 1);
 
         lineRenderer.positionCount = linefromlinePointCount;
+        List<Vector2> points = new();
 
         for (int i = 0; i < linefromlinePointCount; i++)
         {
             float x = start + i * step;
             float y = curve.Evaluate(x);
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
+            points.Add(new Vector2(x, y));
             Debug.Log($"{i} {x} {y}");
         }
-        
+
+        edgeCollider.SetPoints(points);
+
+
     }
 }
