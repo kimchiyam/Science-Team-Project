@@ -2,15 +2,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class MapCreateManager : MonoBehaviour
 {
-    [SerializeField]private List<Vector2> pointsList = new();
+    [SerializeField]private List<Vector2> pointsList;
     [SerializeField] private GameObject pointPrefab;
     [SerializeField] private LineRenderer lineRenderer;
     private AnimationCurve curve = new();
 
     [SerializeField] private int linefromlinePointCount = 50;
+    [SerializeField] private int CreatePointCount;
+    private int _currentX;
+    private int _currentY;
+    private bool _isLowY;
 
     private void Start()
     {
@@ -19,6 +24,32 @@ public class MapCreateManager : MonoBehaviour
 
     private void CreatePoints()
     {
+        pointsList = new();
+        for (int i = 0; i < CreatePointCount; i++)
+        {
+            if (i == 0)
+            {
+                pointsList.Add(new Vector2(0, 0));
+                continue;
+            }
+            int value = Random.Range(8, 15);
+            _currentX += value;
+            if (!_isLowY)
+            {
+                _currentY = Random.Range(4, 8);
+                _isLowY = true;
+            }
+            else
+            {
+                _currentY = Random.Range(0, 2);
+                _isLowY = false;
+            }
+            pointsList.Add(new Vector2(_currentX, _currentY));
+            
+                
+            
+        }
+        linefromlinePointCount = pointsList.Count*100;
         
         foreach (var p in pointsList)
         {

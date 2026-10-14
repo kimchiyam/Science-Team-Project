@@ -163,17 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16771c1a092dd2e4e9a4d85368c2fec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapCreateManager
-  pointsList:
-  - {x: 1, y: 5}
-  - {x: 2, y: 5}
-  - {x: 8, y: 7}
-  - {x: 10, y: 4}
-  - {x: 13, y: 3}
-  - {x: 16, y: 2}
-  - {x: 20, y: 8}
+  pointsList: []
   pointPrefab: {fileID: 7017190946412172293, guid: 9817c72ce55b7d04a86518329cb1f76f, type: 3}
   lineRenderer: {fileID: 831952861}
-  linefromlinePointCount: 15
+  linefromlinePointCount: 1500
+  CreatePointCount: 30
 --- !u!1 &831952860
 GameObject:
   m_ObjectHideFlags: 0
