@@ -39,12 +39,12 @@ public class MapCreateManager : MonoBehaviour
             _currentX += value;
             if (!_isLowY)
             {
-                _currentY = Random.Range(4, 8);
+                _currentY = Random.Range(6, 14);
                 _isLowY = true;
             }
             else
             {
-                _currentY = Random.Range(0, 2);
+                _currentY = Random.Range(0, 4);
                 _isLowY = false;
             }
             pointsList.Add(new Vector2(_currentX, _currentY));
