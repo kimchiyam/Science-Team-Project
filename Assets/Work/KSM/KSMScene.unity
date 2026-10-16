@@ -176,8 +176,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  linefromlinePointCount: 1500
-  CreatePointCount: 30
+  linefromlinePointCount: 1000
+  CreatePointCount: 400
 --- !u!68 &696508185
 EdgeCollider2D:
   m_ObjectHideFlags: 0
