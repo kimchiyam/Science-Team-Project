@@ -11,7 +11,7 @@ public class MapCreateManager : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private EdgeCollider2D edgeCollider;
     
-    private AnimationCurve curve = new();
+    public AnimationCurve curve = new();
     
 
     [SerializeField] private int linefromlinePointCount = 50;
@@ -23,6 +23,13 @@ public class MapCreateManager : MonoBehaviour
     private void Start()
     {
         CreatePoints();
+    }
+
+    public float GetPos(float x)
+    {
+         float right = curve.Evaluate(x + 0.01f);
+        float left  = curve.Evaluate(x - 0.01f);
+        return (right - left) / 0.02f;
     }
 
     private void CreatePoints()
@@ -39,7 +46,7 @@ public class MapCreateManager : MonoBehaviour
             _currentX += value;
             if (!_isLowY)
             {
-                _currentY = Random.Range(6, 14);
+                _currentY = Random.Range(6, 10);
                 _isLowY = true;
             }
             else
