@@ -16,7 +16,7 @@ namespace Work.KJS._00.Scripts
 
         private void FixedUpdate()
         {
-            _rigidbody.linearVelocity = _dir;
+            transform.position.x = 
         }
 
         public void SetDir(Vector2 dir)
