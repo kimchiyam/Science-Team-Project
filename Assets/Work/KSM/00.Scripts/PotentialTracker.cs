@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PotentialTracker : MonoBehaviour
 { 
-    MapCreateManager _mapCreateManager;
   [SerializeField] private Transform target;
   private float _beforeHigh;
   private float _maxHigh;
@@ -13,13 +12,13 @@ public class PotentialTracker : MonoBehaviour
 
   private void Awake()
   {
-      _mapCreateManager = GetComponent<MapCreateManager>();
+     
       
   }
 
   private void Update()
   {
-   _currentHigh = _mapCreateManager.curve.Evaluate(target.position.x);
+   _currentHigh = MapCreateManager.instance.curve.Evaluate(target.position.x);
    
    if(_currentHigh > _beforeHigh)
        _maxHigh = _currentHigh;

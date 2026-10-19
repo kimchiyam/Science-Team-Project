@@ -6,13 +6,24 @@ using Random = UnityEngine.Random;
 
 public class MapCreateManager : MonoBehaviour
 {
+    public static MapCreateManager instance;
     [SerializeField]private List<Vector2> pointsList;
     [SerializeField] private GameObject pointPrefab;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private EdgeCollider2D edgeCollider;
     
     public AnimationCurve curve = new();
-    
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
 
     [SerializeField] private int linefromlinePointCount = 50;
     [SerializeField] private int CreatePointCount;
@@ -25,7 +36,7 @@ public class MapCreateManager : MonoBehaviour
         CreatePoints();
     }
 
-    public float GetPos(float x)
+    public float GetSlope(float x)
     {
          float right = curve.Evaluate(x + 0.01f);
         float left  = curve.Evaluate(x - 0.01f);
