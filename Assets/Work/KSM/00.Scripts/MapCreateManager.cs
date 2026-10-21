@@ -94,19 +94,21 @@ public class MapCreateManager : MonoBehaviour
             float dirY = slop * dirX;
             float angle = Mathf.Atan2(dirY,dirX) * Mathf.Rad2Deg;
            GameObject arro = Instantiate(arrow, new Vector3(x, curve.Evaluate(x)+0.5f, 0), Quaternion.Euler(0,0,angle));
-            if(arro.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
-            {
-                if (dirX > 0)
-                {
-                    spriteRenderer.color = Color.red;
-                    Debug.Log("red");
-                }
-                else
-                {
-                    spriteRenderer.color = Color.blue;
-                    Debug.Log("blue");
-                }
-            }
+           SpriteRenderer[] arrosp =  arro.GetComponentsInChildren<SpriteRenderer>();
+           foreach (var sr in arrosp)
+           {
+               if (dirX > 0)
+               {
+                   sr.color = Color.red;
+                   Debug.Log("red");
+               }
+               else
+               {
+                   sr.color = Color.blue;
+                   Debug.Log("blue");
+               }
+           }
+                
            
         }
 
