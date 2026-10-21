@@ -11,7 +11,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("연결")]
-    //[SerializeField] private GameState gameState;
+    [SerializeField] private GameState gameState;
 
     [Header("조작감 - 중력(전기장 세기)")]
     [Tooltip("Space를 뗐을 때. 낮을수록 멀리 날아감")]
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
         IsPressing = ReadInput();
 
         // 플레이 중일 때만 움직임
-        //if (gameState != null && gameState.Mode != PLayType.Play) return;
+        if (gameState != null && gameState.Mode != PLayType.Play) return;
 
         // 프레임 시간을 작은 조각으로 나눠 계산
         _accumulator += Mathf.Min(Time.deltaTime, 0.05f); // 렉 걸린 프레임에 순간이동 방지
