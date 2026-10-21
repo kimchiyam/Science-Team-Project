@@ -16,7 +16,8 @@ namespace Work.KJS._00.Scripts
 
         private void FixedUpdate()
         {
-            transform.position.x = 
+            transform.parent.position = new Vector3(transform.parent.position.x + Time.deltaTime,MapCreateManager.instance.GetSlope(transform.position.x), 0);
+            
         }
 
         public void SetDir(Vector2 dir)

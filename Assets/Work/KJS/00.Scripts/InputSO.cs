@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Work.KJS._00.Scripts
 {
-    [CreateAssetMenu(fileName = "FILENAME", menuName = "MENUNAME", order = 0)]
+    [CreateAssetMenu(fileName = "InputSO", menuName = "SO", order = 0)]
     public class InputSO : ScriptableObject, InputActions.IPlayerActions
     {
         private InputActions _inputActions;
