@@ -31,6 +31,8 @@ public class MapCreateManager : MonoBehaviour
 
     [SerializeField] private int linefromlinePointCount = 50;
     [SerializeField] private int CreatePointCount;
+    [SerializeField] private int minimumPointDistance = 8;
+    [SerializeField] private int maximumPointDistance = 15;
     private int _currentX;
     private int _currentY;
     private bool _isLowY;
@@ -58,7 +60,7 @@ public class MapCreateManager : MonoBehaviour
                 continue;
             }
 
-            int value = Random.Range(8, 15);
+            int value = Random.Range(minimumPointDistance, maximumPointDistance);
             _currentX += value;
             if (!_isLowY)
             {
@@ -100,12 +102,10 @@ public class MapCreateManager : MonoBehaviour
                if (dirX > 0)
                {
                    sr.color = Color.red;
-                   Debug.Log("red");
                }
                else
                {
                    sr.color = Color.blue;
-                   Debug.Log("blue");
                }
            }
                 
@@ -125,7 +125,6 @@ public class MapCreateManager : MonoBehaviour
             float y = curve.Evaluate(x);
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
             points.Add(new Vector2(x, y));
-            Debug.Log($"{i} {x} {y}");
         }
 
         edgeCollider.SetPoints(points);
@@ -133,3 +132,5 @@ public class MapCreateManager : MonoBehaviour
 
     }
 }
+
+

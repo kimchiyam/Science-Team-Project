@@ -2,84 +2,99 @@ using UnityEngine;
 
 public class ZanSangPool : MonoBehaviour
 {
+    [Header("연결")]
     [SerializeField] private SpriteRenderer ghostPrefab;
     [SerializeField] private SpriteRenderer playerRenderer;
-    
-    [SerializeField] private int poolSize = 12;
-    [SerializeField] private float spawnInterval = 0.03f;
-    [SerializeField] private float lifeTime = 0.3f;
-    
-    private Transform[] ghostTransforms;
-    private SpriteRenderer[] ghostRenderers;
-    private float[] lifeTimes;
+    [SerializeField] private PlayerController player;
+    [SerializeField] private GameState gameState;
 
+    [Header("잔상 길이와 간격")]
+    [SerializeField, Min(1)] private int poolSize = 12;
+    [SerializeField, Min(0.01f)] private float spawnInterval = 0.03f;
+    [SerializeField, Min(0.01f)] private float slowSpawnInterval = 0.09f;
+    [SerializeField, Min(0.01f)] private float lifeTime = 0.3f;
+    [SerializeField, Min(1f)] private float fullTrailSpeed = 50f;
+    [SerializeField, Min(0f)] private float minimumSpeed = 0.5f;
+
+    [Header("잔상 색")]
+    [SerializeField, Range(0f, 1f)] private float saturation = 0.5f;
+    [SerializeField, Range(0f, 1f)] private float brightness = 0.85f;
+    [SerializeField, Range(0f, 1f)] private float initialAlpha = 0.45f;
+    [SerializeField, Range(0f, 1f)] private float hueStep = 0.035f;
+
+    private SpriteRenderer[] ghosts;
+    private float[] remainingLifetimes;
     private int currentIndex;
     private float spawnTimer;
     private float hue;
-    
+
+    // 재사용할 잔상 생성
     private void Awake()
     {
-        ghostTransforms = new Transform[poolSize];
-        ghostRenderers = new SpriteRenderer[poolSize];
-        lifeTimes = new float[poolSize];
-
+        ghosts = new SpriteRenderer[poolSize];
+        remainingLifetimes = new float[poolSize];
         for (int i = 0; i < poolSize; i++)
         {
-            SpriteRenderer ghost = Instantiate(ghostPrefab, transform);
-
-            ghostTransforms[i] = ghost.transform;
-            ghostRenderers[i] = ghost;
-
-            ghost.gameObject.SetActive(false);
+            ghosts[i] = Instantiate(ghostPrefab, transform);
+            ghosts[i].sortingLayerID = playerRenderer.sortingLayerID;
+            ghosts[i].sortingOrder = playerRenderer.sortingOrder - 1;
+            ghosts[i].gameObject.SetActive(false);
         }
     }
-    private void SpawnGhost()
+
+    // 잔상 페이드와 속도별 생성 간격 갱신
+    private void LateUpdate()
     {
-        int i = currentIndex;
-
-        ghostTransforms[i].position = playerRenderer.transform.position;
-        ghostTransforms[i].rotation = playerRenderer.transform.rotation;
-        ghostTransforms[i].localScale = playerRenderer.transform.localScale;
-        ghostRenderers[i].sprite = playerRenderer.sprite; 
-        
-        hue += 0.05f;
-        if (hue > 1f) hue = 0f;
-        Color color = Color.HSVToRGB(hue, 0.6f, 1f);
-        color.a = 0.8f;
-        ghostRenderers[i].color = color;
-
-        ghostRenderers[i].gameObject.SetActive(true);
-
-        lifeTimes[i] = lifeTime;
-
-        currentIndex = (currentIndex + 1) % poolSize;
-    }
-
-    private void Update()
-    {
-        spawnTimer += Time.deltaTime;
-
-        if (spawnTimer >= spawnInterval)
-        {
-            SpawnGhost();
-            spawnTimer = 0;
-        }
-        
         for (int i = 0; i < poolSize; i++)
         {
-            if (lifeTimes[i] <= 0f)
+            if (!ghosts[i].gameObject.activeSelf) continue;
+            remainingLifetimes[i] -= Time.deltaTime;
+            if (remainingLifetimes[i] <= 0f)
             {
-                ghostRenderers[i].gameObject.SetActive(false);
+                ghosts[i].gameObject.SetActive(false);
                 continue;
             }
-            
-            float alpha = lifeTimes[i] / lifeTime;
-            Color color = ghostRenderers[i].color;
-            color.a = alpha;
-            ghostRenderers[i].color = color;
-            
-            lifeTimes[i] -= Time.deltaTime;
+
+            Color color = ghosts[i].color;
+            color.a = initialAlpha * remainingLifetimes[i] / lifeTime;
+            ghosts[i].color = color;
         }
+
+        if (gameState.Mode != PLayType.Play || player.Speed < minimumSpeed)
+        {
+            spawnTimer = 0f;
+            return;
+        }
+
+        float speedRatio = Mathf.Clamp01(player.Speed / fullTrailSpeed);
+        float interval = Mathf.Lerp(slowSpawnInterval, spawnInterval, speedRatio);
+        spawnTimer += Time.deltaTime;
+        if (spawnTimer < interval) return;
+        spawnTimer = 0f;
+        SpawnGhost();
+    }
+
+    // 현재 공의 모습으로 잔상 배치
+    private void SpawnGhost()
+    {
+        SpriteRenderer ghost = ghosts[currentIndex];
+        ghost.transform.SetPositionAndRotation(playerRenderer.transform.position, playerRenderer.transform.rotation);
+        Vector3 playerScale = playerRenderer.transform.lossyScale;
+        Vector3 parentScale = transform.lossyScale;
+        ghost.transform.localScale = new Vector3(
+            playerScale.x / parentScale.x,
+            playerScale.y / parentScale.y,
+            playerScale.z / parentScale.z);
+        ghost.sprite = playerRenderer.sprite;
+        ghost.flipX = playerRenderer.flipX;
+        ghost.flipY = playerRenderer.flipY;
+
+        hue = Mathf.Repeat(hue + hueStep, 1f);
+        Color color = Color.HSVToRGB(hue, saturation, brightness);
+        color.a = initialAlpha;
+        ghost.color = color;
+        remainingLifetimes[currentIndex] = lifeTime;
+        ghost.gameObject.SetActive(true);
+        currentIndex = (currentIndex + 1) % poolSize;
     }
 }
-

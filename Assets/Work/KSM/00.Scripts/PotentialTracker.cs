@@ -29,6 +29,6 @@ public class PotentialTracker : MonoBehaviour
        _deltaVMax = _deltaV;
    
    _beforeHigh = _currentHigh;
-   Debug.Log($"{_deltaV} {_deltaVMax}");
   }
 }
+
