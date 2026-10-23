@@ -9,18 +9,21 @@ public class GameState : MonoBehaviour
 {
    [SerializeField] private float currentTime;
    [SerializeField] private float endTime;
-   private PLayType modes;
+   public PLayType Mode {get; set;}
    private bool isReady = true;
+   
+   public float CurrentTime => currentTime;
+   public float EndTime => endTime;
 
    private void Update()
    {
-      switch (modes)
+      switch (Mode)
       {
          case PLayType.Play:
             currentTime += Time.deltaTime;
             if (currentTime > endTime)
             {
-               modes = PLayType.End;
+               Mode = PLayType.End;
             }
 
             break;
@@ -28,12 +31,12 @@ public class GameState : MonoBehaviour
             if (Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                SceneManager.LoadScene(1);
-               modes = PLayType.Ready;
+               Mode = PLayType.Ready;
             }
             break;
          case PLayType.Ready:
             if(isReady)
-            StartCoroutine(WaitTime());
+               StartCoroutine(WaitTime());
             break;
       }
    }
@@ -43,7 +46,7 @@ public class GameState : MonoBehaviour
       isReady = false;
       yield return new WaitForSecondsRealtime(2f);
       currentTime = 0f;
-      modes = PLayType.Play;
+      Mode = PLayType.Play;
       isReady = true;
    }
 }

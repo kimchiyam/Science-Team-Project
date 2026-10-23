@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
         IsPressing = ReadInput();
 
         // 플레이 중일 때만 움직임
-        //if (gameState != null && gameState.Mode != PLayType.Play) return;
+        if (gameState != null && gameState.Mode != PLayType.Play) return;
 
         // 프레임 시간을 작은 조각으로 나눠 계산
         _accumulator += Mathf.Min(Time.deltaTime, 0.05f); // 렉 걸린 프레임에 순간이동 방지
