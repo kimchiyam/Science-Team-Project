@@ -8,7 +8,7 @@ public class PotentialTracker : MonoBehaviour
   private float _maxHigh;
   private float _deltaVMax;
   private float _deltaV;
-  private float _currentHigh;
+  private float  _currentHigh;
 
   private void Awake()
   {
