@@ -12,9 +12,6 @@
   <component name="ChangeListManager">
     <list default="true" id="419a850e-61f1-48c9-9ea5-4ff8bfdf285e" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Science-Team-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Science-Team-Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Work/KSM/00.Scripts/MapCreateManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Work/KSM/00.Scripts/MapCreateManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Work/KSM/01.Prefab/arrow.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Work/KSM/01.Prefab/arrow.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Work/KSM/KSMScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Work/KSM/KSMScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,6 +171,8 @@
       <workItem from="1792491685466" duration="114000" />
       <workItem from="1792491866927" duration="19000" />
       <workItem from="1792558960884" duration="804000" />
+      <workItem from="1792573131828" duration="646000" />
+      <workItem from="1792655895965" duration="156000" />
     </task>
     <servers />
   </component>
