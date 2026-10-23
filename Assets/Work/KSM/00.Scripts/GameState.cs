@@ -11,6 +11,9 @@ public class GameState : MonoBehaviour
    [SerializeField] private float endTime;
    public PLayType Mode {get; set;}
    private bool isReady = true;
+   
+   public float CurrentTime => currentTime;
+   public float EndTime => endTime;
 
    private void Update()
    {
@@ -33,7 +36,7 @@ public class GameState : MonoBehaviour
             break;
          case PLayType.Ready:
             if(isReady)
-            StartCoroutine(WaitTime());
+               StartCoroutine(WaitTime());
             break;
       }
    }

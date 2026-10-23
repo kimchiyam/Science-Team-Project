@@ -5,6 +5,7 @@ using UnityEngine;
 public class LeftTimeUI : MonoBehaviour
 {
    private TextMeshProUGUI _text;
+   [SerializeField]private GameState _gameState;
 
    private void Awake()
    {
@@ -14,6 +15,6 @@ public class LeftTimeUI : MonoBehaviour
 
    private void Update()
    {
-     // _text.text = $"Left Time : {MapCreateManager.instance.gamestate}";
+      _text.text = $"Left Time : {_gameState.EndTime - _gameState.CurrentTime:F0}";
    }
 }
